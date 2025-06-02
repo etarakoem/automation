@@ -68,7 +68,7 @@ def find_range(pixel,end):
 def retrain():
     # print("Retrain army")
     tap(menu_row[0], bot_menu)
-    tap(menu_row[3], retrain_y)
+    tap(menu_row[2], retrain_y)
     sleep(1)
 
 def soul_collect(fight_flag, minutes, skip=False):
@@ -98,6 +98,7 @@ def soul_collect(fight_flag, minutes, skip=False):
             fight(skip)
         sleep(sleep_time)
 
+# retrain()
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Soul collection automation script.")
     parser.add_argument('--fight', action='store_true', default=False, help='Enable fight mode after soul collection')

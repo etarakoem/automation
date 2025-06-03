@@ -107,10 +107,12 @@ if __name__ == "__main__":
     parser.add_argument('--minutes', type=int, default=10, help='Number of minutes to run the script (default: 10)')
     parser.add_argument('--poweroff', action='store_true', default=False, help='Press power button at the end (default: False)')
     args = parser.parse_args()
+    start_time = time.time()
     try:
         soul_collect(args.fight, args.minutes, args.skip)
     except KeyboardInterrupt:
-        print(f"\nSoul collection completed for {args.minutes} minutes (interrupted by user).")
+        total_runtime = time.time() - start_time
+        print(f"\nSoul collection completed for {str(int(total_runtime/ 60))} minutes {str(int(total_runtime % 60))} seconds (interrupted by user).")
         sys.exit(0)
     if args.poweroff:
         device.shell('input keyevent 26')  # Power button

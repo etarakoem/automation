@@ -2,6 +2,7 @@ from time import sleep
 from ppadb.client import Client
 import argparse
 import time
+import sys
 
 def get_device():
     adb = Client(host="127.0.0.1", port=5037)
@@ -102,14 +103,18 @@ def soul_collect(fight_flag, minutes, skip=False):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Soul collection automation script.")
     parser.add_argument('--fight', action='store_true', default=False, help='Enable fight mode after soul collection')
-    parser.add_argument('--skip', action='store_true', default=False, help='Enable fight mode after soul collection')
+    parser.add_argument('--skip', action='store_true', default=False, help='Enable skip mode during fight')
     parser.add_argument('--minutes', type=int, default=10, help='Number of minutes to run the script (default: 10)')
     parser.add_argument('--poweroff', action='store_true', default=False, help='Press power button at the end (default: False)')
     args = parser.parse_args()
-    soul_collect(args.fight, args.minutes, args.skip)
+    try:
+        soul_collect(args.fight, args.minutes, args.skip)
+    except KeyboardInterrupt:
+        print(f"\nSoul collection completed for {args.minutes} minutes (interrupted by user).")
+        sys.exit(0)
     if args.poweroff:
         device.shell('input keyevent 26')  # Power button
-        print("Soul collection completed. Device will now turn off.")
+        print(f"Soul collection completed for {args.minutes} minutes. Device will now turn off.")
     else:
-        print("Soul collection completed.")
+        print(f"Soul collection completed for {args.minutes} minutes.")
 
